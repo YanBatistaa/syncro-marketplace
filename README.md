@@ -1,55 +1,60 @@
 # ⚡ Syncro Marketplace
 
-Biblioteca de templates para sites e landing pages. Desenvolvida para leads explorarem, escolherem um template e entrarem em contato via WhatsApp.
+Biblioteca de templates para sites e landing pages, feita em **Next.js 14 + TypeScript + Tailwind CSS**.
 
-## 🚀 Como usar
+## 🚀 Como rodar localmente
 
-1. Clone o repositório
-2. Abra `index.html` no navegador (ou use Live Server no VSCode)
-3. Configure o número do WhatsApp em `js/app.js` na variável `WHATSAPP_NUMBER`
-4. Adicione/edite templates em `js/templates.js`
+```bash
+npm install
+npm run dev
+```
+
+Acesse: http://localhost:3000
+
+## ⚙️ Configuração obrigatória
+
+### 1. WhatsApp
+No arquivo `components/PreviewModal.tsx` e `components/Header.tsx` e `components/Footer.tsx`, substitua `55SEU_NUMERO` pelo seu número completo (ex: `5571999999999`).
+
+### 2. Adicionar templates
+Edite `data/templates.ts`:
+
+```ts
+{
+  id: 13,
+  title: 'Nome do Template',
+  niche: 'infoprodutor', // infoprodutor | arquitetura | energia-solar | framer
+  nicheLabel: 'Infoprodutor',
+  thumb: 'URL_DA_IMAGEM',
+  previewUrl: 'URL_DO_FIGMA_EMBED_OU_PREVIEW',
+}
+```
 
 ## 📁 Estrutura
 
 ```
 syncro-marketplace/
-├── index.html
-├── css/
-│   └── style.css
-├── js/
-│   ├── app.js        # Lógica principal (filtros, modal, busca)
-│   └── templates.js  # Dados dos templates (edite aqui para adicionar novos)
-└── README.md
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── Header.tsx
+│   ├── Hero.tsx
+│   ├── TemplatesSection.tsx
+│   ├── TemplateCard.tsx
+│   ├── PreviewModal.tsx
+│   └── Footer.tsx
+├── data/
+│   └── templates.ts    ← edite aqui para adicionar templates
+├── tailwind.config.ts
+└── package.json
 ```
 
-## ➕ Adicionando um novo template
+## 🌐 Deploy (Vercel)
 
-Edite `js/templates.js` e adicione um objeto:
-
-```js
-{
-  id: 13,
-  title: "Nome do Template",
-  category: "Categoria",
-  tag: "infoprodutor", // infoprodutor | arquitetura | energia-solar | framer
-  desc: "Descrição curta do template.",
-  pages: "1 página",
-  thumb: "URL_DA_IMAGEM_DE_CAPA",
-  previewUrl: "URL_DO_PREVIEW_OU_FIGMA_EMBED"
-}
+```bash
+npx vercel
 ```
 
-## 🎨 Tema
-
-- Dark blue: `#050d1a` (base), `#2563eb` (accent)
-- Fonte: Inter (Google Fonts)
-- Totalmente responsivo
-
-## 📱 Funcionalidades
-
-- ✅ Filtro por nicho (Infoprodutor, Arquitetura, Energia Solar, Framer)
-- ✅ Busca em tempo real
-- ✅ Preview via iframe com modal fullscreen
-- ✅ Toggle de dispositivo (Desktop / Tablet / Mobile)
-- ✅ CTA para WhatsApp com mensagem pré-preenchida
-- ✅ Aba Framer com templates gratuitos (crédito ao Framer)
+Ou conecte o repositório diretamente no [vercel.com](https://vercel.com) — deploy automático a cada push.
