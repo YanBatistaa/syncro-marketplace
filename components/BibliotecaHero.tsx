@@ -1,18 +1,12 @@
 export default function BibliotecaHero() {
   return (
-    <section className="relative pt-28 pb-10 px-6 text-center overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 hero-glow" />
-      <div className="relative mx-auto max-w-2xl">
-        <p className="inline-flex items-center gap-2 mb-5 px-3.5 py-1.5 rounded-full border border-border-strong bg-bg-surface text-[11px] font-semibold tracking-widest uppercase text-text-secondary">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-light" />
-          Biblioteca de Templates
-        </p>
-        <h1 className="text-[40px] md:text-[52px] font-black tracking-[-2px] leading-[1.08] mb-4">
-          Escolha o seu{' '}
-          <span className="text-gradient">template.</span>
+    <section className="relative pt-36 pb-12 px-6 text-center overflow-hidden bg-bg-primary">
+      <div className="relative mx-auto max-w-3xl z-10">
+        <h1 className="text-[44px] md:text-[60px] font-black tracking-tight text-white mb-6">
+          Templates.
         </h1>
-        <p className="text-[14px] text-text-secondary leading-relaxed max-w-sm mx-auto">
-          Navegue pelos previews e quando encontrar o ideal, fale comigo no WhatsApp.
+        <p className="text-[16px] text-text-secondary max-w-xl mx-auto font-medium">
+          Navegue pelas categorias e escolha o design que vai elevar o nível da sua empresa. Escolha, solicite, e lance mais rápido.
         </p>
       </div>
     </section>

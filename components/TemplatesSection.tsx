@@ -1,82 +1,62 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { templates, niches } from '@/data/templates'
+import { useState, useMemo, useEffect } from 'react'
+import { useTemplates } from '@/store/TemplateContext'
+import { niches } from '@/data/templates'
 import TemplateCard from './TemplateCard'
 import PreviewModal from './PreviewModal'
 import type { Template } from '@/data/templates'
 
 export default function TemplatesSection() {
+  const { templates } = useTemplates()
+  const [mounted, setMounted] = useState(false)
   const [activeNiche, setActiveNiche] = useState('all')
-  const [search, setSearch]           = useState('')
-  const [selected, setSelected]       = useState<Template | null>(null)
+  const [selected, setSelected] = useState<Template | null>(null)
+
+  useEffect(() => setMounted(true), [])
 
   const filtered = useMemo(() => {
     return templates.filter((t) => {
-      const matchNiche  = activeNiche === 'all' || t.niche === activeNiche
-      const matchSearch = t.title.toLowerCase().includes(search.toLowerCase())
-      return matchNiche && matchSearch
+      return activeNiche === 'all' || t.niche === activeNiche
     })
-  }, [activeNiche, search])
+  }, [activeNiche, templates])
+
+  if (!mounted) {
+    return <div className="flex-1 min-h-[50vh] bg-bg-primary" />
+  }
 
   return (
-    <section className="flex-1 pb-28 px-6">
-      <div className="mx-auto max-w-6xl">
+    <section className="flex-1 pb-32 px-6 pt-6 bg-bg-primary relative z-10">
+      <div className="mx-auto max-w-7xl">
 
-        {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
-          {/* Tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-xl border border-border bg-bg-secondary">
-            {niches.map((n) => (
-              <button
-                key={n.key}
-                onClick={() => setActiveNiche(n.key)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 text-[12px] font-semibold rounded-lg transition-all duration-150 ${
-                  activeNiche === n.key
-                    ? 'bg-bg-surface text-text-primary border border-border-hover shadow-sm'
-                    : 'text-text-muted hover:text-text-secondary'
-                }`}
-              >
-                {n.label}
-                {n.key === 'framer' && (
-                  <span className="text-[9px] font-black bg-accent-muted text-accent-light border border-border-strong px-1.5 py-0.5 rounded-full tracking-wide">FREE</span>
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Search */}
-          <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-            <input
-              type="text"
-              placeholder="Buscar..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 pr-4 py-1.5 text-[12px] bg-bg-secondary border border-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-light focus:glow-accent transition-all w-44"
-            />
-          </div>
+        {/* Top Filters (Webflow style tags) */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+          {niches.map((n) => (
+            <button
+              key={n.key}
+              onClick={() => setActiveNiche(n.key)}
+              className={`px-5 py-2 text-[14px] font-semibold rounded-full border transition-all duration-200 ${
+                activeNiche === n.key
+                  ? 'bg-white border-white text-bg-primary shadow-sm scale-105'
+                  : 'bg-bg-surface/50 border-border text-text-secondary hover:text-white hover:border-border-hover'
+              }`}
+            >
+              {n.label}
+            </button>
+          ))}
         </div>
-
-        {/* Count */}
-        <p className="text-[11px] text-text-muted font-medium mb-5 tracking-wide">
-          {filtered.length} {filtered.length === 1 ? 'template' : 'templates'}
-        </p>
 
         {/* Grid */}
         {filtered.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
             {filtered.map((t) => (
               <TemplateCard key={t.id} template={t} onClick={() => setSelected(t)} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-28 text-text-muted">
-            <p className="text-3xl mb-3 opacity-30">◻</p>
-            <p className="text-[14px] font-semibold text-text-secondary">Nenhum template encontrado</p>
-            <p className="text-[12px] mt-1">Tente outro filtro ou termo.</p>
+          <div className="text-center py-32 border border-dashed border-border rounded-3xl bg-bg-surface/30">
+            <h3 className="text-white font-bold text-lg mb-2">Nenhum template nesta categoria.</h3>
+            <p className="text-text-muted text-sm">Adicione novos templates no painel admin.</p>
           </div>
         )}
       </div>
