@@ -1,15 +1,15 @@
 import Header from '@/components/Header'
-import Hero from '@/components/Hero'
-import TemplatesSection from '@/components/TemplatesSection'
-import Footer from '@/components/Footer'
+import HeroHome from '@/components/HeroHome'
+import Features from '@/components/Features'
+import FooterHome from '@/components/FooterHome'
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <Hero />
-      <TemplatesSection />
-      <Footer />
-    </main>
+      <HeroHome />
+      <Features />
+      <FooterHome />
+    </div>
   )
 }
